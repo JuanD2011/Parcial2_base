@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private Object bulletGO;
+    [SerializeField]
+    private Object bulletAP;
 
     protected bool InsideCamera(bool positive)
     {
@@ -31,7 +33,6 @@ public class PlayerController : MonoBehaviour
         myCollider = GetComponent<Collider2D>();
     }
 
-    // Update is called once per frame
     private void Update()
     {
         movementFactor = Input.GetAxis("Horizontal");
@@ -41,10 +42,15 @@ public class PlayerController : MonoBehaviour
             transform.position += new Vector3(movementFactor * speed * Time.deltaTime, 0F, 0F);
         }
 
-        if (bulletGO != null && Input.GetAxis("Jump") != 0 && canFire)
+        if (bulletGO != null && Input.GetButtonDown("Fire1") != false && canFire)
         {
             Instantiate(bulletGO, transform.position + (transform.up * 0.5F), Quaternion.identity);
             print("Fiyah!");
+            StartCoroutine("FireCR");
+        }
+        if(bulletAP != null && Input.GetButtonDown("Fire2") != false && canFire)
+        {
+            Instantiate(bulletAP, transform.position + (transform.up * 0.5F), Quaternion.identity);
             StartCoroutine("FireCR");
         }
     }

@@ -13,18 +13,31 @@ Prefab:
       objectReference: {fileID: 21300000, guid: 51ce9214c1230a0418354e67c847151e,
         type: 3}
     - target: {fileID: 0}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Color.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Color.b
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1521552842562668}
   m_IsPrefabParent: 0
@@ -39,9 +52,9 @@ GameObject:
   - component: {fileID: 212871752603586570}
   - component: {fileID: 61566687863970792}
   - component: {fileID: 50575600066743822}
-  - component: {fileID: 114027122945913000}
+  - component: {fileID: 114798439726766424}
   m_Layer: 0
-  m_Name: Hazard
+  m_Name: Debris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,7 +118,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.28, y: 1.28}
   m_EdgeRadius: 0
---- !u!114 &114027122945913000
+--- !u!114 &114798439726766424
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -113,7 +126,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1521552842562668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 086fdcfe3dfd6994587a7883eb471218, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ffcaed92b394d04390c78d2c8f46cbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   resistance: 1
@@ -154,7 +167,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 51ce9214c1230a0418354e67c847151e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

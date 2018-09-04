@@ -2,8 +2,12 @@
 
 public class KillVolume : MonoBehaviour
 {
+    public delegate void GameOver();
+    public static event GameOver OnGameOver;
+
     [SerializeField]
     private Shelter[] shelters;
+    private bool gameOver;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -13,9 +17,18 @@ public class KillVolume : MonoBehaviour
             {
                 if (shelters[i] != null)
                 {
-                    print("Damaging a shelter");
+                    gameOver = false;    
+                }
+                else
+                {
+                    gameOver = true;
                 }
             }
+        }
+        if(gameOver)
+        {
+            OnGameOver();
+            Time.timeScale = 0.01f;
         }
 
         Destroy(collision.gameObject);

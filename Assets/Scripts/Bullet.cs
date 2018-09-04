@@ -30,6 +30,5 @@ public class Bullet : MonoBehaviour
     private void AutoDestroy()
     {
         Destroy(gameObject);
-        Destroy(gameObject);
     }
 }

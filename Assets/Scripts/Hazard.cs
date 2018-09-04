@@ -12,8 +12,19 @@ public class Hazard : MonoBehaviour
 
     private float spinTime = 1F;
 
+    [SerializeField]
+    private int damage = 1;
+
+    public int Damage
+    {
+        get
+        {
+            return damage;
+        }
+    }
+
     // Use this for initialization
-    protected void Start()
+    protected virtual void Start()
     {
         myCollider = GetComponent<Collider2D>();
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -35,6 +46,7 @@ public class Hazard : MonoBehaviour
 
     protected void OnHazardDestroyed()
     {
+
         //TODO: GameObject should spin for 'spinTime' secs. then disappear
         Destroy(gameObject);
     }
