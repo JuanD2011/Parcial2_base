@@ -11,11 +11,16 @@ public class PlayerController : MonoBehaviour
     private bool canFire = true;
     private float coolDownTime = 0.5F;
     private Collider2D myCollider;
+    private bool canBarrerini = true;
+    private WaitForSeconds cooldownBarrerini = new WaitForSeconds(5);
+    private WaitForSeconds barreriniDuration = new WaitForSeconds(5);
+    private WaitForSeconds escudiniDuration = new WaitForSeconds(5);
+    private WaitForSeconds poweriniCooldown = new WaitForSeconds(10);
+    private bool canPowerini = true;
 
     [SerializeField]
     private Object bulletGO;
-    [SerializeField]
-    private Object bulletAP;
+    [SerializeField] private GameObject apBullet;
 
     protected bool InsideCamera(bool positive)
     {
@@ -42,17 +47,28 @@ public class PlayerController : MonoBehaviour
             transform.position += new Vector3(movementFactor * speed * Time.deltaTime, 0F, 0F);
         }
 
-        if (bulletGO != null && Input.GetButtonDown("Fire1") != false && canFire)
+        if (bulletGO != null && Input.GetButtonDown("Fire1") && canFire)
         {
             Instantiate(bulletGO, transform.position + (transform.up * 0.5F), Quaternion.identity);
             print("Fiyah!");
             StartCoroutine("FireCR");
         }
-        if(bulletAP != null && Input.GetButtonDown("Fire2") != false && canFire)
+        if (bulletGO != null && Input.GetButtonDown("Fire2") && canFire)
         {
-            Instantiate(bulletAP, transform.position + (transform.up * 0.5F), Quaternion.identity);
+            Instantiate(apBullet, transform.position + (transform.up * 0.5F), Quaternion.identity);
+            print("Fiyah!");
             StartCoroutine("FireCR");
         }
+        if(canBarrerini && Input.GetKeyDown(KeyCode.Space))
+        {
+            StartCoroutine(Barrerini());
+        }
+
+        if(canPowerini && Input.GetButtonDown("Fire3"))
+        {
+            StartCoroutine(Powerini());
+        }
+
     }
 
     private void OnDestroy()
@@ -68,6 +84,11 @@ public class PlayerController : MonoBehaviour
             Time.timeScale = 0F;
             print("Game Over");
         }
+        if(collision.gameObject.CompareTag("Escudini"))
+        {
+            StartCoroutine(Escudini());
+            Destroy(collision.gameObject);
+        }
     }
 
     private IEnumerator FireCR()
@@ -75,5 +96,39 @@ public class PlayerController : MonoBehaviour
         canFire = false;
         yield return new WaitForSeconds(coolDownTime);
         canFire = true;
+    }
+
+    private IEnumerator Barrerini()
+    {
+        transform.GetChild(0).gameObject.SetActive(true);
+        canBarrerini = false;
+        yield return barreriniDuration;
+        transform.GetChild(0).gameObject.SetActive(false);
+        yield return cooldownBarrerini;
+        canBarrerini = true;
+    }
+
+    private IEnumerator Escudini()
+    {
+        transform.GetChild(1).gameObject.SetActive(true);
+        yield return escudiniDuration;
+        transform.GetChild(1).gameObject.SetActive(false);
+    }
+
+    IEnumerator Powerini()
+    {
+        canPowerini = false;
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, 5, Vector2.zero);
+
+        foreach (RaycastHit2D i in hits)
+        {
+            if (i.transform.gameObject.GetComponent<Hazard>() != null)
+            {
+                Destroy(i.transform.gameObject); 
+            }
+        }
+
+        yield return poweriniCooldown;
+        canPowerini = true;
     }
 }

@@ -32,9 +32,13 @@ public class HazardSpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        int randomHarzard = Random.Range(0, 3);
-        Debug.Log(randomHarzard);
-        GameObject hazardTemplate = hazardTemplates[randomHarzard];
+        int whichHazard = Random.Range(0, 4);
+
+        GameObject hazardTemplate = hazardTemplates[whichHazard];
+        if(hazardTemplate.GetComponent<Invader>() != null)
+        {
+            hazardTemplate.GetComponent<Invader>().MovementRadius = Random.Range(0.5f, 2);
+        }
 
         if (hazardTemplate == null)
         {

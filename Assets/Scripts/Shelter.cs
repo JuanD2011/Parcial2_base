@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Shelter : MonoBehaviour
 {
     [SerializeField]
     private int maxResistance = 5;
-    [SerializeField]
+
     private int resistance;
 
     public int MaxResistance
@@ -20,50 +21,40 @@ public class Shelter : MonoBehaviour
         }
     }
 
+    WaitForSeconds regenTime = new WaitForSeconds(10);
+
     [SerializeField]
-    float regenTime;
+    Text text;
 
     private void Start()
     {
         resistance = maxResistance;
+        text.text = resistance.ToString();
     }
 
     public void Damage(int damage)
     {
-        resistance -= damage;
         StopAllCoroutines();
-        if(resistance == 0)
-        {
-            ShelterDestroyed();
-        }
-        if(resistance != maxResistance)
-        {
-            StartCoroutine(ResistanceRegen());
-        }
-    }
-
-    void ShelterDestroyed()
-    {
-        Destroy(gameObject);
+        resistance -= damage;
+        text.text = resistance.ToString();
+        StartCoroutine(ResistanceRegen());
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.GetComponent<Hazard>() != null)
         {
-            Damage(collision.gameObject.GetComponent<Hazard>().Damage);
-            Destroy(collision.gameObject);
+            Damage(1);
         }
     }
 
-    private IEnumerator ResistanceRegen()
+    IEnumerator ResistanceRegen()
     {
-        Debug.Log(resistance);
         while(resistance < maxResistance)
         {
-            yield return new WaitForSeconds(regenTime);
-            resistance += 1;
-            Debug.Log("+1");
+            yield return regenTime;
+            resistance++;
+            text.text = resistance.ToString();
         }
     }
 }

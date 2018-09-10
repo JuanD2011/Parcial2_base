@@ -1,27 +1,18 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class Hazard : MonoBehaviour
 {
+    public delegate void WriteHazard();
+    public static event WriteHazard OnWriteDeaths;
+
     private Collider2D myCollider;
-    private object myRigidbody;
+    protected Rigidbody2D myRigidbody;
 
     [SerializeField]
     private float resistance = 1F;
-
-    private float spinTime = 1F;
-
-    [SerializeField]
-    private int damage = 1;
-
-    public int Damage
-    {
-        get
-        {
-            return damage;
-        }
-    }
 
     // Use this for initialization
     protected virtual void Start()
@@ -34,7 +25,6 @@ public class Hazard : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Bullet>() != null)
         {
-            //TODO: Make this to reduce damage using Bullet.damage attribute
             resistance -= 1;
 
             if (resistance == 0)
@@ -42,12 +32,24 @@ public class Hazard : MonoBehaviour
                 OnHazardDestroyed();
             }
         }
+        else
+        {
+            if (!(collision.gameObject.name == "Barrerini"))
+            {
+                OnHazardDestroyed(); 
+            }
+        }
+        OnWriteDeaths();
     }
 
     protected void OnHazardDestroyed()
     {
+        StartCoroutine(SpinToDeath());
+    }
 
-        //TODO: GameObject should spin for 'spinTime' secs. then disappear
+    protected virtual IEnumerator SpinToDeath()
+    {
+        yield return null;
         Destroy(gameObject);
     }
 }

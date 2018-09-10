@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class Debris : Hazard
 {
-    float speed = 1;
-    private Rigidbody2D rigidbody2D;
+    private float vel;
+
     protected override void Start()
     {
         base.Start();
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        vel = Random.Range(120, 180);
     }
 
     private void Update()
     {
-        rigidbody2D.MoveRotation(Random.Range(10, 50) * Time.deltaTime);
+        transform.Rotate(new Vector3(0, 0, vel * Time.deltaTime));
+    }
+
+    protected override IEnumerator SpinToDeath()
+    {
+        return base.SpinToDeath();
     }
 }

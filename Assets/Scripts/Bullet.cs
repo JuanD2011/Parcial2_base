@@ -11,13 +11,12 @@ public class Bullet : MonoBehaviour
     private Rigidbody2D myRigidbody;
 
     [SerializeField]
-    private float force = 10F;
+    protected float force = 10F;
 
     [SerializeField]
     private float autoDestroyTime = 5F;
 
-    // Use this for initialization
-    private void Start()
+    protected virtual void Start()
     {
         myCollider = GetComponent<Collider2D>();
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -28,6 +27,11 @@ public class Bullet : MonoBehaviour
     }
 
     private void AutoDestroy()
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
     }
