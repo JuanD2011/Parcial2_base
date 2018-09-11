@@ -5,14 +5,11 @@ using UnityEngine;
 public class PoweriniAb : MonoBehaviour
 {
     private WaitForSeconds poweriniCooldown = new WaitForSeconds(10);
-    private bool canPowerini = true;
+    public static bool canPowerini = true;
 
-	void Update ()
+    private void Start()
     {
-        if (canPowerini && Input.GetButtonDown("Fire3"))
-        {
-            StartCoroutine(Powerini());
-        }
+        StartCoroutine(Powerini());
     }
 
     IEnumerator Powerini()
@@ -30,5 +27,6 @@ public class PoweriniAb : MonoBehaviour
 
         yield return poweriniCooldown;
         canPowerini = true;
+        Destroy(this);
     }
 }

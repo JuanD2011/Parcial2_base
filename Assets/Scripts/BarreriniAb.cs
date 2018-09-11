@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class BarreriniAb : MonoBehaviour
 {
-    private bool canBarrerini = true;
+    public static bool canBarrerini = true;
     private WaitForSeconds barreriniDuration = new WaitForSeconds(5);
     private WaitForSeconds cooldownBarrerini = new WaitForSeconds(5);
 
-	void Update ()
+    private void Start()
     {
-        if (canBarrerini && Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(Barrerini());
-        }
+        StartCoroutine(Barrerini());
     }
 
     private IEnumerator Barrerini()
@@ -24,5 +21,6 @@ public class BarreriniAb : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
         yield return cooldownBarrerini;
         canBarrerini = true;
+        Destroy(this);
     }
 }

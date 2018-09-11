@@ -25,9 +25,12 @@ public class HazardsPool : MonoBehaviour {
         {
             GameObject hazardClone = Instantiate(template);//Cloning it the times we specified
             hazardClone.AddComponent(typeof(Hazard));
+            hazardClone.layer = 8;
             GameObject debrisClone = Instantiate(template);//Cloning it the times we specified
             debrisClone.AddComponent(typeof(Debris));
+            debrisClone.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(0,0,255);
             GameObject invaderClone = Instantiate(template);//Cloning it the times we specified
+            invaderClone.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(255, 0, 0);
             invaderClone.AddComponent(typeof(Invader));
             ResetHazard(hazardClone);
             ResetHazard(debrisClone);

@@ -29,9 +29,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         myCollider = GetComponent<Collider2D>();
-        AddBarreriniAb();
-        AddEscudiniAb();
-        AddPoweriniAb();
     }
 
     private void Update()
@@ -55,6 +52,14 @@ public class PlayerController : MonoBehaviour
             print("Fiyah!");
             StartCoroutine("FireCR");
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && BarreriniAb.canBarrerini) {
+            AddBarreriniAb();
+        }
+
+        if (PoweriniAb.canPowerini && Input.GetButtonDown("Fire3")) {
+            AddPoweriniAb();
+        }
     }
 
     void SpawnBullet()
@@ -77,8 +82,8 @@ public class PlayerController : MonoBehaviour
             aPBullet.SetActive(true);
             aPBullet.transform.position = transform.position + new Vector3(0, 0.5f, 0);
             aPBullet.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            aPBullet.GetComponent<Bullet>().AddForce(aPBullet.GetComponent<Rigidbody2D>());
-            StartCoroutine(aPBullet.GetComponent<Bullet>().GoBack());
+            aPBullet.GetComponent<APBullet>().AddForce(aPBullet.GetComponent<Rigidbody2D>());
+            StartCoroutine(aPBullet.GetComponent<APBullet>().GoBack());
         }
     }
 
@@ -92,6 +97,12 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.GetComponent<Hazard>() != null)
         {
             OnGameOver();
+        }
+
+        if (collision.gameObject.CompareTag("Escudini"))
+        {
+            AddEscudiniAb();
+            Destroy(collision.gameObject);
         }
     }
 
@@ -116,7 +127,5 @@ public class PlayerController : MonoBehaviour
     {
         gameObject.AddComponent(typeof(EscudiniAb));
     }
-        
-
 }
 
