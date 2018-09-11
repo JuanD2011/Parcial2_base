@@ -44,7 +44,7 @@ public class Shelter : MonoBehaviour
     {
         if(collision.gameObject.GetComponent<Hazard>() != null)
         {
-            Damage(1);
+            Damage(collision.gameObject.GetComponent<Hazard>().Damage);
         }
     }
 

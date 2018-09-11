@@ -14,8 +14,8 @@ public static class SpawnerExtensions
 [RequireComponent(typeof(Collider2D))]
 public class HazardSpawner : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] hazardTemplates;
+    //[SerializeField]
+    //private GameObject[] hazardTemplates;
 
     private Collider2D myCollider;
 
@@ -33,20 +33,28 @@ public class HazardSpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         int whichHazard = Random.Range(0, 4);
+        GameObject hazard = HazardsPool.SharedInstance.GetHazard();
 
-        GameObject hazardTemplate = hazardTemplates[whichHazard];
-        if(hazardTemplate.GetComponent<Invader>() != null)
+        //GameObject hazardTemplate = hazardTemplates[whichHazard];
+        if(hazard.GetComponent<Invader>() != null)
         {
-            hazardTemplate.GetComponent<Invader>().MovementRadius = Random.Range(0.5f, 2);
+            hazard.GetComponent<Invader>().MovementRadius = Random.Range(0.5f, 2);
         }
 
-        if (hazardTemplate == null)
+        if (hazard == null)
         {
             CancelInvoke();
         }
         else
         {
-            Instantiate(hazardTemplate, myCollider.GetPointInVolume(), transform.rotation);
+            if (hazard != null)
+            {
+                hazard.SetActive(true);
+                hazard.transform.position = myCollider.GetPointInVolume();
+                //hazard.transform.rotation = Quaternion.Euler(Vector3.forward);
+               // StartCoroutine(bullet.GetComponent<Bullet>().GoBack());
+            }
+            //Instantiate(hazardTemplate, myCollider.GetPointInVolume(), transform.rotation);
         }
     }
 }

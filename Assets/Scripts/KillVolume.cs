@@ -17,7 +17,7 @@ public class KillVolume : MonoBehaviour
                 }
             }
         }
-
-        Destroy(collision.gameObject);
+        //Destroy(collision.gameObject);
+        collision.gameObject.SetActive(false);
     }
 }

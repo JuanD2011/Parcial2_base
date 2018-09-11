@@ -49,13 +49,15 @@ public class PlayerController : MonoBehaviour
 
         if (bulletGO != null && Input.GetButtonDown("Fire1") && canFire)
         {
-            Instantiate(bulletGO, transform.position + (transform.up * 0.5F), Quaternion.identity);
+            //Instantiate(bulletGO, transform.position + (transform.up * 0.5F), Quaternion.identity);
+            SpawnBullet();
             print("Fiyah!");
             StartCoroutine("FireCR");
         }
         if (bulletGO != null && Input.GetButtonDown("Fire2") && canFire)
         {
-            Instantiate(apBullet, transform.position + (transform.up * 0.5F), Quaternion.identity);
+            //Instantiate(apBullet, transform.position + (transform.up * 0.5F), Quaternion.identity);
+            SpawnAPBullet();
             print("Fiyah!");
             StartCoroutine("FireCR");
         }
@@ -69,6 +71,30 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Powerini());
         }
 
+    }
+
+    void SpawnBullet()
+    {
+        GameObject bullet = BulletPool.SharedInstance.GetBullet();
+        if (bullet != null)
+        {
+            bullet.transform.position = transform.position + new Vector3(0, 0.5f, 0);
+            bullet.SetActive(true);
+            bullet.GetComponent<Bullet>().AddForce(bullet.GetComponent<Rigidbody2D>());
+            StartCoroutine(bullet.GetComponent<Bullet>().GoBack());
+        }
+    }
+
+    void SpawnAPBullet()
+    {
+        GameObject aPBullet = BulletPool.SharedInstance.GetAPBullet();
+        if (aPBullet != null)
+        {
+            aPBullet.transform.position = transform.position + new Vector3(0, 0.5f, 0);
+            aPBullet.SetActive(true);
+            apBullet.GetComponent<Bullet>().AddForce(apBullet.GetComponent<Rigidbody2D>());
+            StartCoroutine(apBullet.GetComponent<Bullet>().GoBack());
+        }
     }
 
     private void OnDestroy()
@@ -131,4 +157,6 @@ public class PlayerController : MonoBehaviour
         yield return poweriniCooldown;
         canPowerini = true;
     }
+
+    
 }

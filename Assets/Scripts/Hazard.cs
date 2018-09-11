@@ -14,6 +14,21 @@ public class Hazard : MonoBehaviour
     [SerializeField]
     private float resistance = 1F;
 
+    private int damage = 1;
+
+    public int Damage
+    {
+        get
+        {
+            return damage;
+        }
+
+        set
+        {
+            damage = value;
+        }
+    }
+
     // Use this for initialization
     protected virtual void Start()
     {
@@ -50,6 +65,7 @@ public class Hazard : MonoBehaviour
     protected virtual IEnumerator SpinToDeath()
     {
         yield return null;
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

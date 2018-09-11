@@ -29,7 +29,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4406408920855908
 Transform:
   m_ObjectHideFlags: 1
@@ -91,7 +91,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   force: 3
-  autoDestroyTime: 5
 --- !u!212 &212243175191362190
 SpriteRenderer:
   m_ObjectHideFlags: 1
