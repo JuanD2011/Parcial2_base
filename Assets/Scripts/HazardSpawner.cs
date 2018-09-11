@@ -35,7 +35,6 @@ public class HazardSpawner : MonoBehaviour
         int whichHazard = Random.Range(0, 4);
         GameObject hazard = HazardsPool.SharedInstance.GetHazard();
 
-        //GameObject hazardTemplate = hazardTemplates[whichHazard];
         if(hazard.GetComponent<Invader>() != null)
         {
             hazard.GetComponent<Invader>().MovementRadius = Random.Range(0.5f, 2);
@@ -51,10 +50,7 @@ public class HazardSpawner : MonoBehaviour
             {
                 hazard.SetActive(true);
                 hazard.transform.position = myCollider.GetPointInVolume();
-                //hazard.transform.rotation = Quaternion.Euler(Vector3.forward);
-               // StartCoroutine(bullet.GetComponent<Bullet>().GoBack());
             }
-            //Instantiate(hazardTemplate, myCollider.GetPointInVolume(), transform.rotation);
         }
     }
 }

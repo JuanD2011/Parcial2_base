@@ -2,6 +2,9 @@
 
 public class KillVolume : MonoBehaviour
 {
+    public delegate void GameOver();
+    public static event GameOver OnGameOver;
+
     [SerializeField]
     private Shelter[] shelters;
 
@@ -9,15 +12,8 @@ public class KillVolume : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Hazard>() != null)
         {
-            for (int i = 0; i < shelters.Length; i++)
-            {
-                if (shelters[i] != null)
-                {
-                    print("Damaging a shelter");
-                }
-            }
+            HazardsPool.SharedInstance.ResetHazard(collision.gameObject);
+            OnGameOver();
         }
-        //Destroy(collision.gameObject);
-        collision.gameObject.SetActive(false);
     }
 }

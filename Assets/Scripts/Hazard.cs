@@ -29,6 +29,19 @@ public class Hazard : MonoBehaviour
         }
     }
 
+    public float Resistance
+    {
+        get
+        {
+            return resistance;
+        }
+
+        set
+        {
+            resistance = value;
+        }
+    }
+
     // Use this for initialization
     protected virtual void Start()
     {
@@ -40,9 +53,9 @@ public class Hazard : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Bullet>() != null)
         {
-            resistance -= 1;
+            Resistance -= 1;
 
-            if (resistance == 0)
+            if (Resistance == 0)
             {
                 OnHazardDestroyed();
             }
@@ -65,7 +78,6 @@ public class Hazard : MonoBehaviour
     protected virtual IEnumerator SpinToDeath()
     {
         yield return null;
-        //Destroy(gameObject);
-        gameObject.SetActive(false);
+        HazardsPool.SharedInstance.ResetHazard(gameObject);
     }
 }

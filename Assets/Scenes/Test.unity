@@ -194,7 +194,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.7701618, g: 0.0047169924, b: 1, a: 1}
+  m_Color: {r: 0.7701618, g: 0.0047169924, b: 1, a: 0.2784314}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -425,7 +425,7 @@ MonoBehaviour:
   bullets: 6
   bullet: {fileID: 1636773326158786, guid: 1541e6cdb4c541942a69d3d62dc9c36d, type: 2}
   aPBullets: 6
-  aPBullet: {fileID: 1636773326158786, guid: 37c01a0a68740ad4c9cb4916488cf091, type: 2}
+  aPBullet: {fileID: 1636773326158786, guid: 8496ae2a67511ef428791127eaca6013, type: 2}
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,10 +438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hazards: 4
-  hazard: {fileID: 1521552842562668, guid: 2d209c2065defb04a8ab38c8b7a6db2d, type: 2}
-  debri: {fileID: 1521552842562668, guid: 4357fc976a5cde64eb456cbef307e1b7, type: 2}
-  invader: {fileID: 1521552842562668, guid: 51f7deb3cd07d8d42a098ea36810da6d, type: 2}
-  powerUp: {fileID: 1636773326158786, guid: e98466165607a3e4286d8cf503f34f64, type: 2}
+  template: {fileID: 1521552842562668, guid: 93e96099ba5e2224c949f0982bc55775, type: 2}
 --- !u!1 &545033486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,6 +1044,7 @@ GameObject:
   - component: {fileID: 1351252520}
   - component: {fileID: 1351252519}
   - component: {fileID: 1351252522}
+  - component: {fileID: 1351252523}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -1150,6 +1148,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnFrequency: 1
+--- !u!114 &1351252523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1351252518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079182deecb77e04c87caafcc2eba100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnFrequency: 3
+  escudiniTemplate: {fileID: 1636773326158786, guid: e98466165607a3e4286d8cf503f34f64,
+    type: 2}
 --- !u!1 &1528371111
 GameObject:
   m_ObjectHideFlags: 0
@@ -1417,8 +1429,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  bulletGO: {fileID: 1636773326158786, guid: 1541e6cdb4c541942a69d3d62dc9c36d, type: 2}
-  apBullet: {fileID: 1636773326158786, guid: 37c01a0a68740ad4c9cb4916488cf091, type: 2}
 --- !u!60 &1991462837
 PolygonCollider2D:
   m_ObjectHideFlags: 0

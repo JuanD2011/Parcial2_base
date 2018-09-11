@@ -14,10 +14,8 @@ public class HazardsPool : MonoBehaviour {
     int hazards;
 
     List<GameObject> hazardsPool; 
-    [SerializeField] GameObject hazard;
-    [SerializeField] GameObject debri;
-    [SerializeField] GameObject invader;
-    [SerializeField] GameObject powerUp;
+    [SerializeField] GameObject template;
+    Vector3 spawnPos = new Vector3(12, 0, 0);
 
     private void Start()
     {
@@ -25,18 +23,18 @@ public class HazardsPool : MonoBehaviour {
 
         for (int i = 0; i < hazards; i++)
         {
-            GameObject hazardClone = Instantiate(hazard);//Cloning it the times we specified
-            GameObject debrisClone = Instantiate(debri);//Cloning it the times we specified
-            GameObject invaderClone = Instantiate(invader);//Cloning it the times we specified
-            GameObject powerUpClone = Instantiate(powerUp);
-            hazardClone.SetActive(false);//Seting it inactive
-            debrisClone.SetActive(false);
-            invaderClone.SetActive(false);
-            powerUpClone.SetActive(false);
+            GameObject hazardClone = Instantiate(template);//Cloning it the times we specified
+            hazardClone.AddComponent(typeof(Hazard));
+            GameObject debrisClone = Instantiate(template);//Cloning it the times we specified
+            debrisClone.AddComponent(typeof(Debris));
+            GameObject invaderClone = Instantiate(template);//Cloning it the times we specified
+            invaderClone.AddComponent(typeof(Invader));
+            ResetHazard(hazardClone);
+            ResetHazard(debrisClone);
+            ResetHazard(invaderClone);
             hazardsPool.Add(hazardClone);//Adding it to the list
             hazardsPool.Add(debrisClone);//Adding it to the list
             hazardsPool.Add(invaderClone);//Adding it to the list
-            hazardsPool.Add(powerUpClone);
         }
     }
 
@@ -45,10 +43,23 @@ public class HazardsPool : MonoBehaviour {
         for (int i = 0; i < hazardsPool.Count; i++)//Loop to iterate throught the list
         {
             if (!hazardsPool[i].activeInHierarchy)//Check if the item is NOT currently active in the scene
-            {
+            { 
                 return hazardsPool[i];//If it is, the loop moves to the next position and returns the object
             }
         }
         return null;//If there is not inactive objects, exit the method and returns nothing
+    }
+
+    public void ResetHazard(GameObject _hazard)
+    {
+        _hazard.SetActive(false);
+        _hazard.transform.position = spawnPos;
+        _hazard.GetComponent<Hazard>().Resistance = 1;
+        if (_hazard.GetComponent<Invader>() != null)
+        {
+            _hazard.GetComponent<Collider2D>().enabled = true;
+            _hazard.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+            _hazard.GetComponent<Invader>().Dead = false;
+        }
     }
 }

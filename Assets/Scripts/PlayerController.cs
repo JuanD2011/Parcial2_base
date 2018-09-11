@@ -4,6 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class PlayerController : MonoBehaviour
 {
+    public delegate void GameOver();
+    public static event GameOver OnGameOver;
+
     [SerializeField]
     private float speed;
 
@@ -11,16 +14,6 @@ public class PlayerController : MonoBehaviour
     private bool canFire = true;
     private float coolDownTime = 0.5F;
     private Collider2D myCollider;
-    private bool canBarrerini = true;
-    private WaitForSeconds cooldownBarrerini = new WaitForSeconds(5);
-    private WaitForSeconds barreriniDuration = new WaitForSeconds(5);
-    private WaitForSeconds escudiniDuration = new WaitForSeconds(5);
-    private WaitForSeconds poweriniCooldown = new WaitForSeconds(10);
-    private bool canPowerini = true;
-
-    [SerializeField]
-    private Object bulletGO;
-    [SerializeField] private GameObject apBullet;
 
     protected bool InsideCamera(bool positive)
     {
@@ -36,6 +29,9 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         myCollider = GetComponent<Collider2D>();
+        AddBarreriniAb();
+        AddEscudiniAb();
+        AddPoweriniAb();
     }
 
     private void Update()
@@ -47,30 +43,18 @@ public class PlayerController : MonoBehaviour
             transform.position += new Vector3(movementFactor * speed * Time.deltaTime, 0F, 0F);
         }
 
-        if (bulletGO != null && Input.GetButtonDown("Fire1") && canFire)
+        if (Input.GetButtonDown("Fire1") && canFire)
         {
-            //Instantiate(bulletGO, transform.position + (transform.up * 0.5F), Quaternion.identity);
             SpawnBullet();
             print("Fiyah!");
             StartCoroutine("FireCR");
         }
-        if (bulletGO != null && Input.GetButtonDown("Fire2") && canFire)
+        if (Input.GetButtonDown("Fire2") && canFire)
         {
-            //Instantiate(apBullet, transform.position + (transform.up * 0.5F), Quaternion.identity);
             SpawnAPBullet();
             print("Fiyah!");
             StartCoroutine("FireCR");
         }
-        if(canBarrerini && Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(Barrerini());
-        }
-
-        if(canPowerini && Input.GetButtonDown("Fire3"))
-        {
-            StartCoroutine(Powerini());
-        }
-
     }
 
     void SpawnBullet()
@@ -78,8 +62,8 @@ public class PlayerController : MonoBehaviour
         GameObject bullet = BulletPool.SharedInstance.GetBullet();
         if (bullet != null)
         {
-            bullet.transform.position = transform.position + new Vector3(0, 0.5f, 0);
             bullet.SetActive(true);
+            bullet.transform.position = transform.position + new Vector3(0, 0.5f, 0);
             bullet.GetComponent<Bullet>().AddForce(bullet.GetComponent<Rigidbody2D>());
             StartCoroutine(bullet.GetComponent<Bullet>().GoBack());
         }
@@ -90,30 +74,24 @@ public class PlayerController : MonoBehaviour
         GameObject aPBullet = BulletPool.SharedInstance.GetAPBullet();
         if (aPBullet != null)
         {
-            aPBullet.transform.position = transform.position + new Vector3(0, 0.5f, 0);
             aPBullet.SetActive(true);
-            apBullet.GetComponent<Bullet>().AddForce(apBullet.GetComponent<Rigidbody2D>());
-            StartCoroutine(apBullet.GetComponent<Bullet>().GoBack());
+            aPBullet.transform.position = transform.position + new Vector3(0, 0.5f, 0);
+            aPBullet.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            aPBullet.GetComponent<Bullet>().AddForce(aPBullet.GetComponent<Rigidbody2D>());
+            StartCoroutine(aPBullet.GetComponent<Bullet>().GoBack());
         }
     }
 
     private void OnDestroy()
     {
         StopCoroutine("FireCR");
-        Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<Hazard>() != null)
         {
-            Time.timeScale = 0F;
-            print("Game Over");
-        }
-        if(collision.gameObject.CompareTag("Escudini"))
-        {
-            StartCoroutine(Escudini());
-            Destroy(collision.gameObject);
+            OnGameOver();
         }
     }
 
@@ -124,39 +102,21 @@ public class PlayerController : MonoBehaviour
         canFire = true;
     }
 
-    private IEnumerator Barrerini()
+    void AddBarreriniAb()
     {
-        transform.GetChild(0).gameObject.SetActive(true);
-        canBarrerini = false;
-        yield return barreriniDuration;
-        transform.GetChild(0).gameObject.SetActive(false);
-        yield return cooldownBarrerini;
-        canBarrerini = true;
+        gameObject.AddComponent(typeof(BarreriniAb));
     }
-
-    private IEnumerator Escudini()
-    {
-        transform.GetChild(1).gameObject.SetActive(true);
-        yield return escudiniDuration;
-        transform.GetChild(1).gameObject.SetActive(false);
-    }
-
-    IEnumerator Powerini()
-    {
-        canPowerini = false;
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, 5, Vector2.zero);
-
-        foreach (RaycastHit2D i in hits)
-        {
-            if (i.transform.gameObject.GetComponent<Hazard>() != null)
-            {
-                Destroy(i.transform.gameObject); 
-            }
-        }
-
-        yield return poweriniCooldown;
-        canPowerini = true;
-    }
-
     
+    void AddPoweriniAb()
+    {
+        gameObject.AddComponent(typeof(PoweriniAb));
+    }
+
+    void AddEscudiniAb()
+    {
+        gameObject.AddComponent(typeof(EscudiniAb));
+    }
+        
+
 }
+

@@ -18,6 +18,19 @@ public class Invader : Hazard
         }
     }
 
+    public bool Dead
+    {
+        get
+        {
+            return dead;
+        }
+
+        set
+        {
+            dead = value;
+        }
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -26,7 +39,7 @@ public class Invader : Hazard
 
     private void Update()
     {
-        if (!dead)
+        if (!Dead)
         {
             if (transform.position.x <= spawnPoint.x - movementRadius)
             {
@@ -41,7 +54,7 @@ public class Invader : Hazard
 
     protected override IEnumerator SpinToDeath()
     {
-        dead = true;
+        Dead = true;
         myRigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
         GetComponent<Collider2D>().enabled = false;
         float elapsedTime = 0;
@@ -51,6 +64,6 @@ public class Invader : Hazard
             transform.Rotate(new Vector3(0, 0, 200 * Time.deltaTime));
             yield return null;
         }
-        Destroy(gameObject);
+        HazardsPool.SharedInstance.ResetHazard(gameObject);
     }
 }

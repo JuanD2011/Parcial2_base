@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class Shelter : MonoBehaviour
 {
+    public delegate void GameOver();
+    public static event GameOver OnGameOver;
+
     [SerializeField]
     private int maxResistance = 5;
 
@@ -37,6 +40,10 @@ public class Shelter : MonoBehaviour
         StopAllCoroutines();
         resistance -= damage;
         text.text = resistance.ToString();
+        if(resistance == 0)
+        {
+            OnGameOver();
+        }
         StartCoroutine(ResistanceRegen());
     }
 

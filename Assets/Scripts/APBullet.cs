@@ -1,5 +1,5 @@
-﻿public class APBullet : Bullet {
-
+﻿public class APBullet : Bullet
+{
 	protected override void Start ()
     {
         force = 5f;
