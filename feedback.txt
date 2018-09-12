@@ -1,0 +1,15 @@
+Feedback
+
+Examen (/5.0)
+ * El Script de Invader no hace nada.
+ * APBullet usa el mismo script de Bullet, por lo que solo ponerlo como trigger hace que atraviese los hazards, más no detecta colisión con ellos.
+ * Bullet no se destruye al impactar con un hazard.
+ * Debris no rota. Matemáticamente lo hace, pero el valor es insignificante y no se refleja gráficamente.
+ * Por qué se hace acceso al Rigidbody2D del Debris si Hazard ya lo tiene?
+ * No hay Game Over una vez un hazard pasa de los shelters.
+ * No hay Game Over una vez se destruye el primer hazard
+
+Bonificación (0.0/0.5)
+ * No se presenta solución para la bonificación
+
+Total:
